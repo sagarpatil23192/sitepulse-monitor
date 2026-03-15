@@ -7,6 +7,8 @@ It continuously checks website availability, tracks response times, sends alerts
 
 Perfect for **DevOps engineers, SREs, and developers** who want a simple self-hosted monitoring solution.
 
+
+
 ---
 
 ## ✨ Features
