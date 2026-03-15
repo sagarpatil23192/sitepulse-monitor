@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>SitePulse Monitor</title>
+
+<p style="color:#94a3b8; margin-bottom:30px;">
+Monitoring: <strong><%= targetUrl %></strong>
+</p>
+
+<meta http-equiv="refresh" content="30">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+background:#0f172a;
+color:white;
+padding:40px;
+}
+
+h1{
+margin-bottom:30px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+margin-bottom:30px;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+
+.big{
+font-size:32px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.status-up{
+background:#22c55e;
+color:white;
+padding:6px 12px;
+border-radius:6px;
+display:inline-block;
+}
+
+.status-down{
+background:#ef4444;
+color:white;
+padding:6px 12px;
+border-radius:6px;
+display:inline-block;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+td,th{
+padding:10px;
+border-bottom:1px solid #334155;
+text-align:left;
+}
+
+th{
+color:#94a3b8;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🚀 SitePulse Website Monitor</h1>
+
+<!-- Metrics Cards -->
+
+<div class="grid">
+
+<!-- Uptime -->
+
+<div class="card">
+
+<div>Uptime</div>
+
+<div class="big"><%= uptime %>%</div>
+
+</div>
+
+<!-- Average Response -->
+
+<div class="card">
+
+<div>Avg Response Time</div>
+
+<div class="big"><%= avgResponse %>s</div>
+
+</div>
+
+<!-- Current Status -->
+
+<div class="card">
+
+<div>Current Status</div>
+
+<div class="big <%= lastStatus == 200 ? 'status-up' : 'status-down' %>">
+
+<%= lastStatus == 200 ? "UP" : "DOWN" %>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Response Time Chart -->
+
+<div class="card">
+
+<h3>Response Time</h3>
+
+<canvas id="chart"></canvas>
+
+</div>
+
+<br>
+
+<!-- Recent Checks -->
+
+<div class="card">
+
+<h3>Recent Checks</h3>
+
+<table>
+
+<tr>
+<th>Time</th>
+<th>Status</th>
+<th>Response</th>
+</tr>
+
+<% logs.slice(-20).reverse().forEach(log => { %>
+
+<tr>
+
+<td><%= log.time %></td>
+
+<td class="<%= log.status == 200 ? 'status-up' : 'status-down' %>">
+<%= log.status %>
+</td>
+
+<td><%= log.response %>s</td>
+
+</tr>
+
+<% }) %>
+
+</table>
+
+</div>
+
+<script>
+
+const logs = <%- JSON.stringify(logs) %>
+
+const labels = logs.map(l => l.time)
+
+const data = logs.map(l => l.response)
+
+new Chart(document.getElementById("chart"),{
+
+type:"line",
+
+data:{
+labels:labels,
+datasets:[{
+label:"Response Time (seconds)",
+data:data,
+borderWidth:2,
+tension:0.4
+}]
+},
+
+options:{
+scales:{
+y:{
+beginAtZero:true
+}
+}
+}
+
+})
+
+</script>
+
+</body>
+
+</html>
