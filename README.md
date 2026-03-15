@@ -9,7 +9,8 @@ Perfect for **DevOps engineers, SREs, and developers** who want a simple self-ho
 
 ## Dashboard
 
-![Dashboard](images/homepage1.png)(images/homepage2.png)
+![Dashboard](images/homepage1.png)
+![Dashboard](images/homepage2.png)
 
 ---
 
