@@ -246,11 +246,3 @@ If you find this project useful, please consider **starring the repository**.
 It helps others discover the project!
 
 ---
-
-If you'd like, I can also help you add **three things that make the repo look even more impressive**:
-
-* 📸 **Actual dashboard screenshot in README**
-* 📊 **Architecture diagram image**
-* 🎬 **Animated GIF demo of the dashboard**
-
-Those make the repo look **much more like a real open-source product.**
