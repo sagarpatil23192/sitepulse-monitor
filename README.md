@@ -3,12 +3,13 @@
 # 🚀 SitePulse Monitor
 
 **SitePulse Monitor** is a lightweight, Dockerized **website uptime monitoring tool** built with **Python and Node.js**.
-It continuously checks website availability, tracks response times, sends alerts on failures, and provides a clean real-time dashboard.
+It continuously checks website availability, tracks response times, sends alerts on failures, provides a clean real-time dashboard, and performs basic security analysis including headers, SSL, and vulnerability scanning.
 
 Perfect for **DevOps engineers, SREs, and developers** who want a simple self-hosted monitoring solution.
 
 ## Dashboard
 
+![Dashboard](images/homepage3.png)
 ![Dashboard](images/homepage1.png)
 ![Dashboard](images/homepage2.png)
 
@@ -25,17 +26,36 @@ Perfect for **DevOps engineers, SREs, and developers** who want a simple self-ho
 ✅ **Docker deployment** for easy setup
 ✅ Lightweight and minimal dependencies
 
+### 🔐 Security Scanning
+✅ Security Headers Analysis
+  - CSP
+  - HSTS
+  - X-Frame-Options
+  - X-Content-Type-Options
+✅  SSL Certificate Monitoring (expiry tracking)
+✅  OWASP ZAP Baseline Scan (DAST)
+✅  Security Score calculation
+✅  Risk identification
 ---
 
 ## 🖥 Dashboard Preview
-
-Example dashboard features:
 
 * 📈 Response time graph
 * 📊 Uptime percentage
 * ⚡ Average response time
 * 🟢 Current status (UP / DOWN)
 * 📜 Recent health checks table
+* 🔐 **Security Overview Panel**
+
+---
+
+### 🔐 Security Overview Panel
+
+* 🛡 Security score based on headers, SSL & vulnerabilities  
+* 📑 Security headers check (CSP, HSTS, X-Frame, etc.)  
+* 🔒 SSL certificate expiry tracking  
+* 🚨 Vulnerability insights from OWASP ZAP  
+* ⚠ Risk identification with warnings  
 
 ```
 SitePulse Dashboard
@@ -44,6 +64,21 @@ SitePulse Dashboard
 Uptime:           99.94%
 Avg Response:     0.231s
 Current Status:   UP
+
+🔐 Security Overview
+Score: 82
+
+Headers:
+CSP ✔
+HSTS ✔
+X-Frame ❌
+
+SSL:
+Expires in 25 days
+
+Risks:
+⚠ Missing X-Frame-Options
+⚠ SSL expiring soon
 
 Response Time Chart
 -------------------
@@ -69,8 +104,10 @@ Time                Status     Response
             | - Response time logs  |
             | - Failure detection   |
             | - Email alerts        |
+            | - Security Scanning   |
             |                       |
             | monitor.log           |
+            | security.json         |
             |                       |
             | Node.js Dashboard     |
             | - Express server      |
@@ -91,6 +128,7 @@ sitepulse-monitor
 │
 ├── monitor
 │   ├── monitor.py
+│   ├── security_scan.py
 │   ├── requirements.txt
 │   └── fail_state.txt
 │
@@ -102,6 +140,8 @@ sitepulse-monitor
 │
 ├── logs
 │   └── monitor.log
+│   └── security.json
+│   └── zap_report.json
 │
 ├── Dockerfile
 ├── start.sh
@@ -134,6 +174,7 @@ docker build -t sitepulse .
 ```bash
 docker run -d \
 -p 3000:3000 \
+-v /var/run/docker.sock:/var/run/docker.sock \
 -e TARGET_URL=https://example.com \
 -e ALERT_EMAIL=your@email.com \
 -e ALERT_PASSWORD=your_email_app_password \
@@ -213,6 +254,12 @@ Benefits:
 * Runs on any VPS
 
 ---
+⚠️ Limitations
+
+* ZAP scan requires Docker socket access
+* Lightweight scanning (not full pentest)
+* Single website monitoring (current version)
+---
 
 # 🚀 Future Improvements
 
@@ -223,6 +270,7 @@ Planned upgrades:
 * Slack / Telegram alerts
 * Database storage (Postgres / SQLite)
 * Kubernetes deployment
+* Security trend analytics
 
 ---
 
